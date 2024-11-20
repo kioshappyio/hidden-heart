@@ -5,19 +5,54 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Private Puisi</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <style>
         body {
             font-family: 'Roboto', sans-serif;
             background-color: #f8f9fa;
+            color: #333;
             display: flex;
             flex-direction: column;
             min-height: 100vh;
         }
         .header-logo {
-            font-size: 1.5rem;
+            font-family: 'Courier New', Courier, monospace;
             font-weight: bold;
-            color: #ffffff;
+            font-size: 2rem;
+            color: #1d4ed8;
         }
+        .frame-puisi {
+            border: 2px solid #1d4ed8;
+            border-radius: 12px;
+            padding: 20px;
+            background-color: #fff;
+            margin-bottom: 20px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+            transition: box-shadow 0.3s ease;
+        }
+        .frame-puisi:hover {
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+        .frame-puisi h3 {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #1d4ed8;
+            margin-bottom: 15px;
+        }
+        footer {
+            background-color: #1d4ed8;
+            text-align: center;
+            padding: 20px;
+            margin-top: auto;
+        }
+        footer p {
+            font-size: 0.875rem;
+            font-weight: lighter;
+            letter-spacing: 1px;
+            color: #f0f0f0;
+        }
+
+        /* Style untuk navbar dan menu hamburger */
         .navbar {
             display: flex;
             justify-content: space-between;
@@ -29,156 +64,119 @@
             color: white;
             text-decoration: none;
             margin: 0 15px;
+            font-size: 1.2rem;
         }
         .menu-toggle {
             display: none;
-            font-size: 1.8rem;
+            font-size: 2rem;
             color: white;
             cursor: pointer;
         }
-        .navbar-links {
-            display: flex;
-        }
-        .navbar-links a {
-            font-size: 1rem;
-        }
-        /* Loading Animasi */
-        #loading {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.7);
-            z-index: 1000;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        #loading .spinner {
-            width: 40px;
-            height: 40px;
-            border: 4px solid rgba(255, 255, 255, 0.2);
-            border-top: 4px solid white;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-        @keyframes spin {
-            from {
-                transform: rotate(0deg);
-            }
-            to {
-                transform: rotate(360deg);
-            }
-        }
+
+        /* Responsif untuk tampilan mobile */
         @media (max-width: 768px) {
-            .menu-toggle {
-                display: block;
-            }
             .navbar-links {
                 display: none;
+                width: 100%;
                 flex-direction: column;
                 background-color: #1d4ed8;
-                width: 100%;
                 position: absolute;
                 top: 60px;
                 left: 0;
+                padding: 20px;
+                gap: 10px;
             }
             .navbar-links.active {
                 display: flex;
+            }
+            .menu-toggle {
+                display: block;
+            }
+            .navbar a {
+                text-align: center;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Loading Animation -->
-    <div id="loading"><div class="spinner"></div></div>
 
-    <!-- Navbar -->
-    <header class="navbar">
-        <h1 class="header-logo">Key</h1>
-        <div id="menu-toggle" class="menu-toggle">&#9776;</div>
-        <nav id="navbar-links" class="navbar-links">
-            <a href="#">Beranda</a>
-        </nav>
+    <header>
+        <div class="navbar">
+            <h1 class="header-logo">Key</h1>
+            <div class="menu-toggle" id="menu-toggle">&#9776;</div> <!-- Hamburger Icon -->
+            <nav class="navbar-links" id="navbar-links">
+                <a href="#" class="nav-item">Beranda</a>
+            </nav>
+        </div>
     </header>
 
-    <!-- Main Content -->
     <main class="container mx-auto p-4">
-        <section id="puisi-section" class="hidden">
-            <div id="puisi-detail" class="p-4 bg-white border rounded-lg shadow-md">
-                <h3 id="puisi-title" class="text-2xl font-bold text-blue-600"></h3>
-                <p id="puisi-content" class="mt-4 text-gray-700"></p>
+        <section id="puisi-section" class="hidden mb-12">
+            <div id="puisi-detail" class="frame-puisi">
+                <h3 id="puisi-title"></h3>
+                <div id="puisi-content"></div>
             </div>
         </section>
     </main>
 
-    <!-- Footer -->
-    <footer class="text-center bg-blue-600 text-white py-4">
-        <p>&copy; 2024 Key. Semua Hak Cipta Dilindungi</p>
+    <footer>
+        <p>© 2024 Key. Semua Hak Cipta Dilindungi</p>
     </footer>
 
     <script>
-        // Navbar Toggle
-        document.getElementById('menu-toggle').addEventListener('click', () => {
-            const navbarLinks = document.getElementById('navbar-links');
+        // Toggle navbar menu saat hamburger icon diklik
+        const menuToggle = document.getElementById('menu-toggle');
+        const navbarLinks = document.getElementById('navbar-links');
+
+        menuToggle.addEventListener('click', function () {
             navbarLinks.classList.toggle('active');
         });
 
-        // Fetch Puisi List
-        async function loadPuisiList() {
-            const url = 'https://api.github.com/repos/kioshappyio/hidden-heart/contents/';
-            const navbarLinks = document.getElementById('navbar-links');
+        // Memuat puisi dari GitHub
+        async function loadFromGitHub() {
+            const url = `https://api.github.com/repos/kioshappyio/hidden-heart/contents/`;
+            const response = await fetch(url);
+            const data = await response.json();
 
-            try {
-                const response = await fetch(url);
-                if (!response.ok) throw new Error('Gagal memuat daftar puisi');
-                const files = await response.json();
-
-                files
-                    .filter(file => file.name.endsWith('.md'))
-                    .forEach(file => {
-                        const title = file.name.replace('.md', '').replace(/-/g, ' ');
-                        const link = document.createElement('a');
-                        link.textContent = title;
-                        link.href = '#';
-                        link.addEventListener('click', () => {
-                            loadPuisiDetail(file.name);
-                            navbarLinks.classList.remove('active');
-                        });
-                        navbarLinks.appendChild(link);
+            data.forEach(file => {
+                if (file.name.endsWith('.md')) {
+                    const title = file.name.replace('.md', '').replace(/-/g, ' ');
+                    const link = document.createElement('a');
+                    link.href = "#";
+                    link.textContent = title;
+                    link.classList.add('nav-item');
+                    link.addEventListener('click', function () {
+                        loadPuisiDetail(file.name);
+                        // Tutup navbar setelah klik
+                        navbarLinks.classList.remove('active');
                     });
-            } catch (error) {
-                console.error(error.message);
-            }
+                    navbarLinks.appendChild(link);
+                }
+            });
         }
 
-        // Fetch Puisi Detail
         async function loadPuisiDetail(fileName) {
-            const loading = document.getElementById('loading');
-            loading.style.display = 'flex';
-
             const url = `https://api.github.com/repos/kioshappyio/hidden-heart/contents/${fileName}`;
-            try {
-                const response = await fetch(url);
-                if (!response.ok) throw new Error('Gagal memuat puisi');
-                const file = await response.json();
-                const content = atob(file.content);
-                const [title, ...body] = content.split('\n');
+            const response = await fetch(url);
+            const data = await response.json();
+            const content = atob(data.content);
+            const [title, ...body] = content.split('\n');
 
-                document.getElementById('puisi-title').textContent = title.replace('# ', '');
-                document.getElementById('puisi-content').innerHTML = body.join('<br/>');
-                document.getElementById('puisi-section').classList.remove('hidden');
-            } catch (error) {
-                console.error(error.message);
-            } finally {
-                loading.style.display = 'none';
-            }
+            document.getElementById('puisi-title').textContent = title.replace('# ', '');
+            document.getElementById('puisi-content').innerHTML = body.join('<br>');
+            document.getElementById('puisi-section').classList.remove('hidden');
         }
 
-        // Initialize
-        document.addEventListener('DOMContentLoaded', loadPuisiList);
+        // Inisialisasi
+        document.addEventListener('DOMContentLoaded', loadFromGitHub);
+
+        // Tutup navbar setelah menu diklik
+        navbarLinks.addEventListener('click', function (e) {
+            if (e.target.classList.contains('nav-item')) {
+                navbarLinks.classList.remove('active');
+            }
+        });
     </script>
+
 </body>
-    </html>
+</html>
