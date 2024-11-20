@@ -1,5 +1,6 @@
 # Rindu yang Tak Tersentuh
 (Karya: Key)
+Dibuat pada: 7 Januari 2024
 
 Hari ini, aku kembali memikirkanmu,
 lebih dari kemarin, lebih dari yang seharusnya.
@@ -25,5 +26,4 @@ Sebab mencintai tak selalu berarti menggenggam,
 kadang cukup dengan melihatmu bahagia,
 meski bukan bersamaku.
 
-# Dibuat pada: 19 November 2024
-# Hak cipta © Key
+
