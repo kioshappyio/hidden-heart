@@ -6,7 +6,7 @@ di balik layar dan kabel yang saling terhubung,
 berjalan aliran data,
 dengan ritme yang tak pernah berhenti.
 
-Komputer, server, dan cloud—
+Komputer, server, dan cloud
 semua saling berkomunikasi dalam diam.
 Kita menulis kode,
 membangun dunia baru dalam ruang hampa,
