@@ -1,6 +1,5 @@
 # Rindu yang Tak Tersentuh
 (Karya: Key)
-Dibuat pada: 7 Januari 2024
 
 Hari ini, aku kembali memikirkanmu,
 lebih dari kemarin, lebih dari yang seharusnya.
