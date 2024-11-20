@@ -6,7 +6,6 @@
     <title>My private puisi</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet"> <!-- Menambahkan FontAwesome -->
     <style>
         body {
             font-family: 'Roboto', sans-serif;
@@ -23,16 +22,16 @@
             color: #1d4ed8; /* Warna biru untuk brand */
         }
         .frame-puisi {
-            border: 2px solid #1d4ed8; /* Membuat border lebih tipis */
-            border-radius: 12px; /* Sudut lebih lembut */
+            border: 2px solid #1d4ed8;
+            border-radius: 12px;
             padding: 20px;
             background-color: #fff;
             margin-bottom: 20px;
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1); /* Bayangan halus */
-            transition: box-shadow 0.3s ease; /* Efek transisi saat hover */
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+            transition: box-shadow 0.3s ease;
         }
         .frame-puisi:hover {
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15); /* Efek hover dengan bayangan lebih besar */
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
         }
         .frame-puisi h3 {
             font-size: 2rem;
@@ -40,76 +39,83 @@
             color: #1d4ed8;
             margin-bottom: 15px;
         }
-        .navbar a {
-            font-size: 1.2rem;
-            margin-right: 20px;
-        }
         footer {
             background-color: #1d4ed8;
             text-align: center;
             padding: 20px;
-            margin-top: auto; /* Pastikan footer selalu di bawah */
+            margin-top: auto;
         }
         footer p {
-            font-size: 0.875rem; /* Ukuran font lebih kecil untuk hak cipta */
+            font-size: 0.875rem;
             font-weight: lighter;
             letter-spacing: 1px;
             color: #f0f0f0;
         }
 
-        /* Untuk menambahkan gaya pada menu navbar */
-        .navbar-toggle {
-            display: none;
-        }
-        .navbar-toggle.active + .navbar-menu {
-            display: block;
-        }
-        .navbar-menu {
+        /* Style untuk navbar dan menu hamburger */
+        .navbar {
             display: flex;
-            gap: 20px;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #1d4ed8;
+            padding: 10px 20px;
         }
-        .navbar-toggle {
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            font-size: 1.2rem;
+        }
+        .navbar a:hover {
+            text-decoration: underline;
+        }
+        .menu-toggle {
+            display: none;
             font-size: 2rem;
+            color: white;
             cursor: pointer;
-            color: #fff;
         }
 
+        /* Responsif untuk tampilan mobile */
         @media (max-width: 768px) {
-            .navbar-menu {
+            .navbar-links {
                 display: none;
                 width: 100%;
+                flex-direction: column;
                 background-color: #1d4ed8;
                 position: absolute;
                 top: 60px;
                 left: 0;
                 padding: 20px;
-                flex-direction: column;
+                gap: 10px;
             }
-
-            .navbar-menu a {
-                color: white;
+            .navbar-links.active {
+                display: flex;
+            }
+            .menu-toggle {
+                display: block;
+            }
+            .navbar a {
                 text-align: center;
-                padding: 10px;
-                border-bottom: 1px solid white;
             }
         }
     </style>
 </head>
 <body>
-    <header class="bg-blue-600 text-white py-4 shadow-md">
-        <div class="container mx-auto flex items-center justify-between">
+
+    <header>
+        <div class="navbar">
             <h1 class="header-logo">Key</h1>
-            <div class="navbar">
-                <i class="fas fa-bars navbar-toggle" id="navbar-toggle"></i> <!-- Ikon hamburger -->
-                <nav class="navbar-menu" id="navbar-menu">
-                    <a href="#" id="home-link">Beranda</a>
-                    <span id="navbar-titles" class="flex flex-wrap"></span>
-                </nav>
-            </div>
+            <div class="menu-toggle" id="menu-toggle">&#9776;</div> <!-- Hamburger Icon -->
+            <nav class="navbar-links" id="navbar-links">
+                <a href="#">Beranda</a>
+                <a href="#">Puisi</a>
+                <a href="#">Tentang</a>
+            </nav>
         </div>
     </header>
 
-    <main class="flex-grow container mx-auto px-4 py-8">
+    <main class="container mx-auto p-4">
         <section id="puisi-section" class="hidden mb-12">
             <div id="puisi-detail" class="frame-puisi">
                 <h3 id="puisi-title"></h3>
@@ -118,75 +124,51 @@
         </section>
     </main>
 
-    <!-- Footer -->
     <footer>
         <p>© 2024 Key. Semua Hak Cipta Dilindungi</p>
     </footer>
 
     <script>
-        const GITHUB_USERNAME = 'kioshappyio'; // Ganti dengan username GitHub Anda
-        const REPO_NAME = 'hidden-heart'; // Ganti dengan nama repository Anda
-        const ACCESS_TOKEN = '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'; // Ganti dengan Personal Access Token Anda
-
-        const navbarTitles = document.getElementById('navbar-titles');
-        const puisiSection = document.getElementById('puisi-section');
-        const puisiTitleElement = document.getElementById('puisi-title');
-        const puisiContentElement = document.getElementById('puisi-content');
-
-        // Memuat daftar puisi dari GitHub
-        async function loadFromGitHub() {
-            const url = `https://api.github.com/repos/${GITHUB_USERNAME}/${REPO_NAME}/contents/`;
-            const response = await fetch(url, {
-                headers: { Authorization: `token ${ACCESS_TOKEN}` },
-            });
-
-            if (response.ok) {
-                const files = await response.json();
-                console.log('Daftar file:', files);  // Debugging
-                files.forEach((file) => {
-                    if (file.name.endsWith('.md')) {
-                        const title = file.name.replace('.md', '').replace(/-/g, ' ');
-                        const link = document.createElement('a');
-                        link.href = '#';
-                        link.textContent = title;
-                        link.classList.add('text-lg', 'text-blue-500', 'hover:underline');
-                        link.addEventListener('click', () => loadPuisiDetail(file.name)); // Hanya pakai file.name karena di root
-                        navbarTitles.appendChild(link);
-                    }
-                });
-            } else {
-                console.error('Gagal memuat puisi:', await response.json());
-            }
-        }
-
-        // Memuat puisi detail saat pengguna memilih judul
-        async function loadPuisiDetail(filePath) {
-            const url = `https://api.github.com/repos/${GITHUB_USERNAME}/${REPO_NAME}/contents/${filePath}`;
-            console.log('Memuat URL:', url); // Debugging
-            const response = await fetch(url, {
-                headers: { Authorization: `token ${ACCESS_TOKEN}` },
-            });
-
-            if (response.ok) {
-                const fileData = await response.json();
-                console.log('Data File:', fileData); // Debugging
-                const content = atob(fileData.content); // Decode konten base64
-                const [title, ...body] = content.split('\n');
-                puisiTitleElement.textContent = title.replace('# ', ''); // Ambil judul tanpa "#"
-                puisiContentElement.innerHTML = body.join('<br/>'); // Gabungkan isi dengan <br> untuk pemformatan
-                puisiSection.classList.remove('hidden');
-            } else {
-                console.error('Gagal memuat puisi detail:', await response.json());
-            }
-        }
-
-        // Toggle menu ketika hamburger menu di klik
-        document.getElementById('navbar-toggle').addEventListener('click', () => {
-            document.getElementById('navbar-menu').classList.toggle('active');
+        // Toggle navbar menu saat hamburger icon diklik
+        document.getElementById('menu-toggle').addEventListener('click', function() {
+            document.getElementById('navbar-links').classList.toggle('active');
         });
+
+        // Memuat puisi dari GitHub (dengan fetch API, misalnya)
+        async function loadFromGitHub() {
+            const url = `https://api.github.com/repos/kioshappyio/hidden-heart/contents/`;
+            const response = await fetch(url);
+            const data = await response.json();
+            const navbarLinks = document.getElementById('navbar-links');
+            
+            data.forEach(file => {
+                if (file.name.endsWith('.md')) {
+                    const title = file.name.replace('.md', '').replace(/-/g, ' ');
+                    const link = document.createElement('a');
+                    link.href = "#";
+                    link.textContent = title;
+                    link.addEventListener('click', function() {
+                        loadPuisiDetail(file.name);
+                    });
+                    navbarLinks.appendChild(link);
+                }
+            });
+        }
+
+        async function loadPuisiDetail(fileName) {
+            const url = `https://api.github.com/repos/kioshappyio/hidden-heart/contents/${fileName}`;
+            const response = await fetch(url);
+            const data = await response.json();
+            const content = atob(data.content);
+            const [title, ...body] = content.split('\n');
+            document.getElementById('puisi-title').textContent = title.replace('# ', '');
+            document.getElementById('puisi-content').innerHTML = body.join('<br>');
+            document.getElementById('puisi-section').classList.remove('hidden');
+        }
 
         // Inisialisasi
         document.addEventListener('DOMContentLoaded', loadFromGitHub);
     </script>
+
 </body>
-    </html>
+</html>
