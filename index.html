@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Private Puisi</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
     <style>
         body {
             font-family: 'Roboto', sans-serif;
@@ -21,23 +21,31 @@
             font-size: 2rem;
             color: #1d4ed8;
         }
-        .frame-puisi {
+        .frame-profile {
             border: 2px solid #1d4ed8;
             border-radius: 12px;
             padding: 20px;
             background-color: #fff;
+            text-align: center;
             margin-bottom: 20px;
             box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
             transition: box-shadow 0.3s ease;
         }
-        .frame-puisi:hover {
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-        }
-        .frame-puisi h3 {
-            font-size: 2rem;
-            font-weight: bold;
-            color: #1d4ed8;
+        .frame-profile img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%; /* Membuat foto bulat */
+            border: 4px solid #1d4ed8; /* Border untuk foto */
             margin-bottom: 15px;
+        }
+        .social-icons a {
+            color: #1d4ed8;
+            margin: 0 10px;
+            font-size: 1.5rem;
+            transition: color 0.3s ease;
+        }
+        .social-icons a:hover {
+            color: #0d6efd;
         }
         footer {
             background-color: #1d4ed8;
@@ -103,14 +111,28 @@
     <header>
         <div class="navbar">
             <h1 class="header-logo">Key</h1>
-            <div class="menu-toggle" id="menu-toggle">&#9776;</div> <!-- Hamburger Icon -->
+            <div class="menu-toggle" id="menu-toggle">&#9776;</div>
             <nav class="navbar-links" id="navbar-links">
-                <a href="#" class="nav-item">Beranda</a>
+                <a href="#profile" class="nav-item">Beranda</a>
             </nav>
         </div>
     </header>
 
     <main class="container mx-auto p-4">
+        <!-- Frame Profil -->
+        <section id="profile" class="frame-profile">
+            <img src="https://via.placeholder.com/150" alt="Foto Profil"> <!-- Link gambar -->
+            <h2 class="text-xl font-bold mb-2">Nama Anda</h2>
+            <p class="text-gray-600 mb-4">Deskripsi singkat tentang Anda atau profesi Anda.</p>
+            <div class="social-icons">
+                <a href="https://facebook.com" target="_blank" title="Facebook"><i class="fab fa-facebook"></i></a>
+                <a href="https://wa.me/1234567890" target="_blank" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                <a href="https://instagram.com" target="_blank" title="Instagram"><i class="fab fa-instagram"></i></a>
+                <a href="mailto:example@gmail.com" target="_blank" title="Gmail"><i class="fas fa-envelope"></i></a>
+                <a href="https://t.me/username" target="_blank" title="Telegram"><i class="fab fa-telegram"></i></a>
+            </div>
+        </section>
+
         <section id="puisi-section" class="hidden mb-12">
             <div id="puisi-detail" class="frame-puisi">
                 <h3 id="puisi-title"></h3>
@@ -131,44 +153,6 @@
         menuToggle.addEventListener('click', function () {
             navbarLinks.classList.toggle('active');
         });
-
-        // Memuat puisi dari GitHub
-        async function loadFromGitHub() {
-            const url = `https://api.github.com/repos/kioshappyio/hidden-heart/contents/`;
-            const response = await fetch(url);
-            const data = await response.json();
-
-            data.forEach(file => {
-                if (file.name.endsWith('.md')) {
-                    const title = file.name.replace('.md', '').replace(/-/g, ' ');
-                    const link = document.createElement('a');
-                    link.href = "#";
-                    link.textContent = title;
-                    link.classList.add('nav-item');
-                    link.addEventListener('click', function () {
-                        loadPuisiDetail(file.name);
-                        // Tutup navbar setelah klik
-                        navbarLinks.classList.remove('active');
-                    });
-                    navbarLinks.appendChild(link);
-                }
-            });
-        }
-
-        async function loadPuisiDetail(fileName) {
-            const url = `https://api.github.com/repos/kioshappyio/hidden-heart/contents/${fileName}`;
-            const response = await fetch(url);
-            const data = await response.json();
-            const content = atob(data.content);
-            const [title, ...body] = content.split('\n');
-
-            document.getElementById('puisi-title').textContent = title.replace('# ', '');
-            document.getElementById('puisi-content').innerHTML = body.join('<br>');
-            document.getElementById('puisi-section').classList.remove('hidden');
-        }
-
-        // Inisialisasi
-        document.addEventListener('DOMContentLoaded', loadFromGitHub);
 
         // Tutup navbar setelah menu diklik
         navbarLinks.addEventListener('click', function (e) {
