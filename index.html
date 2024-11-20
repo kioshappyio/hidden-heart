@@ -19,7 +19,7 @@
             font-family: 'Courier New', Courier, monospace;
             font-weight: bold;
             font-size: 2rem;
-            color: #1d4ed8; /* Warna biru untuk brand */
+            color: #1d4ed8;
         }
         .frame-puisi {
             border: 2px solid #1d4ed8;
@@ -66,14 +66,28 @@
             margin: 0 15px;
             font-size: 1.2rem;
         }
-        .navbar a:hover {
-            text-decoration: underline;
-        }
         .menu-toggle {
             display: none;
             font-size: 2rem;
             color: white;
             cursor: pointer;
+        }
+
+        /* Loading animasi */
+        #loading {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
         }
 
         /* Responsif untuk tampilan mobile */
@@ -102,6 +116,8 @@
     </style>
 </head>
 <body>
+
+    <div id="loading">Memuat...</div> <!-- Elemen loading -->
 
     <header>
         <div class="navbar">
@@ -147,6 +163,8 @@
                     link.textContent = title;
                     link.addEventListener('click', function() {
                         loadPuisiDetail(file.name);
+                        // Tutup navbar setelah klik
+                        document.getElementById('navbar-links').classList.remove('active');
                     });
                     navbarLinks.appendChild(link);
                 }
@@ -156,12 +174,21 @@
         async function loadPuisiDetail(fileName) {
             const url = `https://api.github.com/repos/kioshappyio/hidden-heart/contents/${fileName}`;
             const response = await fetch(url);
+            
+            // Tampilkan animasi loading
+            const loadingElement = document.getElementById('loading');
+            loadingElement.style.display = 'flex';
+            
             const data = await response.json();
             const content = atob(data.content);
             const [title, ...body] = content.split('\n');
+
             document.getElementById('puisi-title').textContent = title.replace('# ', '');
             document.getElementById('puisi-content').innerHTML = body.join('<br>');
             document.getElementById('puisi-section').classList.remove('hidden');
+
+            // Sembunyikan animasi loading
+            loadingElement.style.display = 'none';
         }
 
         // Inisialisasi
@@ -169,4 +196,4 @@
     </script>
 
 </body>
-</html>
+    </html>
