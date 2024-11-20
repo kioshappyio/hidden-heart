@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My private puisi</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        .header-logo {
+            font-family: 'Courier New', Courier, monospace;
+            font-weight: bold;
+            font-size: 2rem;
+            color: #1d4ed8; /* Warna biru untuk brand */
+        }
+        .frame-puisi {
+            border: 2px solid #1d4ed8; /* Membuat border lebih tipis */
+            border-radius: 12px; /* Sudut lebih lembut */
+            padding: 20px;
+            background-color: #fff;
+            margin-bottom: 20px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1); /* Bayangan halus */
+            transition: box-shadow 0.3s ease; /* Efek transisi saat hover */
+        }
+        .frame-puisi:hover {
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15); /* Efek hover dengan bayangan lebih besar */
+        }
+        .frame-puisi h3 {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #1d4ed8;
+            margin-bottom: 15px;
+        }
+        .navbar a {
+            font-size: 1.2rem;
+            margin-right: 20px;
+        }
+        footer {
+            background-color: #1d4ed8;
+            text-align: center;
+            padding: 20px;
+            margin-top: auto; /* Pastikan footer selalu di bawah */
+        }
+        footer p {
+            font-size: 0.875rem; /* Ukuran font lebih kecil untuk hak cipta */
+            font-weight: lighter;
+            letter-spacing: 1px;
+            color: #f0f0f0;
+        }
+    </style>
+</head>
+<body>
+    <header class="bg-blue-600 text-white py-4 shadow-md">
+        <div class="container mx-auto flex items-center justify-between">
+            <h1 class="header-logo">Key</h1>
+            <nav class="navbar">
+                <a href="#" id="home-link">Beranda</a>
+                <span id="navbar-titles" class="flex flex-wrap"></span>
+            </nav>
+        </div>
+    </header>
+
+    <main class="flex-grow container mx-auto px-4 py-8">
+        <section id="puisi-section" class="hidden mb-12">
+            <div id="puisi-detail" class="frame-puisi">
+                <h3 id="puisi-title"></h3>
+                <div id="puisi-content"></div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <p>© 2024 Key. Semua Hak Cipta Dilindungi</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+      </html>
