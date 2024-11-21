@@ -6,8 +6,7 @@
     <title>My Private Puisi</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-    <!-- SweetAlert2 CSS -->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> <!-- SweetAlert2 Library -->
     <style>
         body {
             font-family: 'Roboto', sans-serif;
@@ -35,27 +34,11 @@
         .frame-puisi:hover, .frame-profile:hover {
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
         }
-        .photo {
-            width: 150px;
-            height: 150px;
-            margin: 0 auto 20px;
-            border: 5px solid #87cefa;
-            border-radius: 50%;
-            overflow: hidden;
-        }
-        .photo img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        .social-icons img {
-            width: 30px;
-            height: 30px;
-            cursor: pointer;
-            transition: transform 0.2s ease-in-out;
-        }
-        .social-icons img:hover {
-            transform: scale(1.2);
+        .frame-puisi h3 {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #1d4ed8;
+            margin-bottom: 15px;
         }
         footer {
             background-color: #1d4ed8;
@@ -69,13 +52,87 @@
             letter-spacing: 1px;
             color: #f0f0f0;
         }
+        .photo {
+            width: 150px;
+            height: 150px;
+            margin: 0 auto 20px;
+            border: 5px solid #87cefa;
+            border-radius: 50%;
+            overflow: hidden;
+        }
+        .photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .social-icons {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 15px;
+        }
+        .social-icons img {
+            width: 30px;
+            height: 30px;
+            cursor: pointer;
+            transition: transform 0.2s ease-in-out;
+        }
+        .social-icons img:hover {
+            transform: scale(1.2);
+        }
+
+        /* Responsif untuk navbar dan menu hamburger */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #1d4ed8;
+            padding: 10px 20px;
+        }
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            font-size: 1.2rem;
+        }
+        .menu-toggle {
+            display: none;
+            font-size: 2rem;
+            color: white;
+            cursor: pointer;
+        }
+        @media (max-width: 768px) {
+            .navbar-links {
+                display: none;
+                width: 100%;
+                flex-direction: column;
+                background-color: #1d4ed8;
+                position: absolute;
+                top: 60px;
+                left: 0;
+                padding: 20px;
+                gap: 10px;
+            }
+            .navbar-links.active {
+                display: flex;
+            }
+            .menu-toggle {
+                display: block;
+            }
+            .navbar a {
+                text-align: center;
+            }
+        }
     </style>
 </head>
 <body>
 
     <header>
-        <div class="navbar flex justify-between items-center p-4 bg-blue-500">
-            <h1 class="header-logo text-white">Key</h1>
+        <div class="navbar">
+            <h1 class="header-logo">Key</h1>
+            <div class="menu-toggle" id="menu-toggle">&#9776;</div> <!-- Hamburger Icon -->
+            <nav class="navbar-links" id="navbar-links">
+                <a href="#beranda" class="nav-item">Beranda</a>
+            </nav>
         </div>
     </header>
 
@@ -88,7 +145,7 @@
                 </div>
                 <h3>Selamat Datang!</h3>
                 <p>Temukan koleksi puisi pribadi dan informasi menarik lainnya.</p>
-                <div class="social-icons flex justify-center gap-4 mt-4">
+                <div class="social-icons">
                     <a href="https://wa.me/">
                         <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp">
                     </a>
@@ -104,6 +161,14 @@
                 </div>
             </div>
         </section>
+
+        <!-- Section untuk Puisi -->
+        <section id="puisi-section" class="hidden mb-12">
+            <div id="puisi-detail" class="frame-puisi">
+                <h3 id="puisi-title"></h3>
+                <div id="puisi-content"></div>
+            </div>
+        </section>
     </main>
 
     <footer>
@@ -111,40 +176,75 @@
     </footer>
 
     <script>
-        const secretPin = "0890"; // PIN rahasia
-
-        // Tampilkan SweetAlert untuk PIN saat halaman dimuat
-        document.addEventListener("DOMContentLoaded", function () {
-            Swal.fire({
-                title: "Masukkan PIN",
-                input: "password",
-                inputPlaceholder: "Masukkan PIN untuk mengakses",
-                showCancelButton: false,
-                confirmButtonText: "Submit",
-                allowOutsideClick: false,
-                allowEscapeKey: false,
-                inputValidator: (value) => {
-                    if (!value) {
-                        return "PIN tidak boleh kosong!";
-                    } else if (value !== secretPin) {
-                        return "PIN salah, coba lagi!";
-                    }
+        // SweetAlert2 PIN Verification
+        Swal.fire({
+            title: 'Masukkan PIN',
+            input: 'password',
+            inputPlaceholder: 'Masukkan PIN Rahasia',
+            showCancelButton: false,
+            confirmButtonText: 'Akses',
+            inputValidator: (value) => {
+                if (value !== '0890') {
+                    return 'PIN salah! Akses ditolak.';
                 }
-            }).then((result) => {
-                if (!result.isConfirmed || result.value !== secretPin) {
-                    Swal.fire({
-                        icon: "error",
-                        title: "Akses Ditolak",
-                        text: "Anda tidak dapat mengakses website ini!",
-                        allowOutsideClick: false,
-                        allowEscapeKey: false,
-                        showConfirmButton: false
-                    }).then(() => {
-                        window.location.href = "about:blank"; // Mengarahkan ke halaman kosong jika PIN salah
+            }
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // If PIN is correct, load the website content
+                document.body.classList.remove('hidden');
+            } else {
+                document.body.innerHTML = 'Akses ditolak!';
+            }
+        });
+
+        const menuToggle = document.getElementById('menu-toggle');
+        const navbarLinks = document.getElementById('navbar-links');
+
+        menuToggle.addEventListener('click', function () {
+            navbarLinks.classList.toggle('active');
+        });
+
+        async function loadFromGitHub() {
+            const url = `https://api.github.com/repos/kioshappyio/hidden-heart/contents/`;
+            const response = await fetch(url);
+            const data = await response.json();
+
+            data.forEach(file => {
+                if (file.name.endsWith('.md')) {
+                    const title = file.name.replace('.md', '').replace(/-/g, ' ');
+                    const link = document.createElement('a');
+                    link.href = "#";
+                    link.textContent = title;
+                    link.classList.add('nav-item');
+                    link.addEventListener('click', function () {
+                        loadPuisiDetail(file.name);
+                        navbarLinks.classList.remove('active');
                     });
+                    navbarLinks.appendChild(link);
                 }
             });
+        }
+
+        async function loadPuisiDetail(fileName) {
+            const url = `https://api.github.com/repos/kioshappyio/hidden-heart/contents/${fileName}`;
+            const response = await fetch(url);
+            const data = await response.json();
+            const content = atob(data.content);
+            const [title, ...body] = content.split('\n');
+
+            document.getElementById('puisi-title').textContent = title.replace('# ', '');
+            document.getElementById('puisi-content').innerHTML = body.join('<br>');
+            document.getElementById('puisi-section').classList.remove('hidden');
+        }
+
+        document.addEventListener('DOMContentLoaded', loadFromGitHub);
+
+        navbarLinks.addEventListener('click', function (e) {
+            if (e.target.classList.contains('nav-item')) {
+                navbarLinks.classList.remove('active');
+            }
         });
     </script>
+
 </body>
-</html>
+    </html>
