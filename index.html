@@ -21,7 +21,7 @@
             font-size: 2rem;
             color: #1d4ed8;
         }
-        .frame-puisi {
+        .frame-puisi, .frame-profile {
             border: 2px solid #1d4ed8;
             border-radius: 12px;
             padding: 20px;
@@ -30,7 +30,7 @@
             box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
             transition: box-shadow 0.3s ease;
         }
-        .frame-puisi:hover {
+        .frame-puisi:hover, .frame-profile:hover {
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
         }
         .frame-puisi h3 {
@@ -51,8 +51,35 @@
             letter-spacing: 1px;
             color: #f0f0f0;
         }
+        .photo {
+            width: 150px;
+            height: 150px;
+            margin: 0 auto 20px;
+            border: 5px solid #87cefa;
+            border-radius: 50%;
+            overflow: hidden;
+        }
+        .photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .social-icons {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 15px;
+        }
+        .social-icons img {
+            width: 30px;
+            height: 30px;
+            cursor: pointer;
+            transition: transform 0.2s ease-in-out;
+        }
+        .social-icons img:hover {
+            transform: scale(1.2);
+        }
 
-        /* Style untuk navbar dan menu hamburger */
+        /* Responsif untuk navbar dan menu hamburger */
         .navbar {
             display: flex;
             justify-content: space-between;
@@ -72,8 +99,6 @@
             color: white;
             cursor: pointer;
         }
-
-        /* Responsif untuk tampilan mobile */
         @media (max-width: 768px) {
             .navbar-links {
                 display: none;
@@ -105,12 +130,38 @@
             <h1 class="header-logo">Key</h1>
             <div class="menu-toggle" id="menu-toggle">&#9776;</div> <!-- Hamburger Icon -->
             <nav class="navbar-links" id="navbar-links">
-                <a href="#" class="nav-item">Beranda</a>
+                <a href="#beranda" class="nav-item">Beranda</a>
             </nav>
         </div>
     </header>
 
     <main class="container mx-auto p-4">
+        <!-- Frame Profile untuk Beranda -->
+        <section id="beranda" class="mb-12">
+            <div class="frame-profile text-center">
+                <div class="photo">
+                    <img src="https://via.placeholder.com/150" alt="Profile Photo">
+                </div>
+                <h3>Selamat Datang!</h3>
+                <p>Temukan koleksi puisi pribadi dan informasi menarik lainnya.</p>
+                <div class="social-icons">
+                    <a href="https://wa.me/">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp">
+                    </a>
+                    <a href="https://t.me/">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg" alt="Telegram">
+                    </a>
+                    <a href="https://instagram.com/">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" alt="Instagram">
+                    </a>
+                    <a href="https://facebook.com/">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/1/1b/Facebook_icon.svg" alt="Facebook">
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section untuk Puisi -->
         <section id="puisi-section" class="hidden mb-12">
             <div id="puisi-detail" class="frame-puisi">
                 <h3 id="puisi-title"></h3>
@@ -124,7 +175,6 @@
     </footer>
 
     <script>
-        // Toggle navbar menu saat hamburger icon diklik
         const menuToggle = document.getElementById('menu-toggle');
         const navbarLinks = document.getElementById('navbar-links');
 
@@ -132,7 +182,6 @@
             navbarLinks.classList.toggle('active');
         });
 
-        // Memuat puisi dari GitHub
         async function loadFromGitHub() {
             const url = `https://api.github.com/repos/kioshappyio/hidden-heart/contents/`;
             const response = await fetch(url);
@@ -147,7 +196,6 @@
                     link.classList.add('nav-item');
                     link.addEventListener('click', function () {
                         loadPuisiDetail(file.name);
-                        // Tutup navbar setelah klik
                         navbarLinks.classList.remove('active');
                     });
                     navbarLinks.appendChild(link);
@@ -167,10 +215,8 @@
             document.getElementById('puisi-section').classList.remove('hidden');
         }
 
-        // Inisialisasi
         document.addEventListener('DOMContentLoaded', loadFromGitHub);
 
-        // Tutup navbar setelah menu diklik
         navbarLinks.addEventListener('click', function (e) {
             if (e.target.classList.contains('nav-item')) {
                 navbarLinks.classList.remove('active');
@@ -179,4 +225,4 @@
     </script>
 
 </body>
-</html>
+                    </html>
