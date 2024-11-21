@@ -6,7 +6,7 @@
     <title>My Private Puisi</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-    <!-- SweetAlert CSS -->
+    <!-- SweetAlert2 CSS -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
         body {
@@ -57,13 +57,25 @@
         .social-icons img:hover {
             transform: scale(1.2);
         }
+        footer {
+            background-color: #1d4ed8;
+            text-align: center;
+            padding: 20px;
+            margin-top: auto;
+        }
+        footer p {
+            font-size: 0.875rem;
+            font-weight: lighter;
+            letter-spacing: 1px;
+            color: #f0f0f0;
+        }
     </style>
 </head>
 <body>
 
     <header>
-        <div class="navbar">
-            <h1 class="header-logo">Key</h1>
+        <div class="navbar flex justify-between items-center p-4 bg-blue-500">
+            <h1 class="header-logo text-white">Key</h1>
         </div>
     </header>
 
@@ -76,7 +88,7 @@
                 </div>
                 <h3>Selamat Datang!</h3>
                 <p>Temukan koleksi puisi pribadi dan informasi menarik lainnya.</p>
-                <div class="social-icons">
+                <div class="social-icons flex justify-center gap-4 mt-4">
                     <a href="https://wa.me/">
                         <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp">
                     </a>
@@ -99,10 +111,9 @@
     </footer>
 
     <script>
-        // SweetAlert untuk PIN
         const secretPin = "0890"; // PIN rahasia
 
-        // Tampilkan SweetAlert saat halaman dimuat
+        // Tampilkan SweetAlert untuk PIN saat halaman dimuat
         document.addEventListener("DOMContentLoaded", function () {
             Swal.fire({
                 title: "Masukkan PIN",
@@ -120,7 +131,7 @@
                     }
                 }
             }).then((result) => {
-                if (!result.isConfirmed) {
+                if (!result.isConfirmed || result.value !== secretPin) {
                     Swal.fire({
                         icon: "error",
                         title: "Akses Ditolak",
@@ -128,6 +139,8 @@
                         allowOutsideClick: false,
                         allowEscapeKey: false,
                         showConfirmButton: false
+                    }).then(() => {
+                        window.location.href = "about:blank"; // Mengarahkan ke halaman kosong jika PIN salah
                     });
                 }
             });
