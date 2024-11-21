@@ -219,6 +219,8 @@
                     link.addEventListener('click', function () {
                         loadPuisiDetail(file.name);
                         navbarLinks.classList.remove('active');
+                        document.getElementById('beranda').classList.add('hidden'); // Hide the profile
+                        document.getElementById('puisi-section').classList.remove('hidden'); // Show the puisi section
                     });
                     navbarLinks.appendChild(link);
                 }
@@ -234,7 +236,6 @@
 
             document.getElementById('puisi-title').textContent = title.replace('# ', '');
             document.getElementById('puisi-content').innerHTML = body.join('<br>');
-            document.getElementById('puisi-section').classList.remove('hidden');
         }
 
         document.addEventListener('DOMContentLoaded', loadFromGitHub);
@@ -247,4 +248,4 @@
     </script>
 
 </body>
-    </html>
+</html>
