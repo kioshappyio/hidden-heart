@@ -42,6 +42,7 @@
             margin-bottom: 20px;
             box-shadow: var(--box-shadow);
             transition: box-shadow 0.3s ease;
+            position: relative;
         }
 
         .frame-puisi:hover, .frame-profile:hover {
@@ -102,24 +103,6 @@
             transform: scale(1.2);
         }
 
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar {
-            width: 10px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: #f1f1f1;
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: #888;
-            border-radius: 10px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: #555;
-        }
-
         /* Responsif untuk navbar dan menu hamburger */
         .navbar {
             display: flex;
@@ -127,7 +110,9 @@
             align-items: center;
             background-color: var(--primary-color);
             padding: 10px 20px;
-            position: relative;
+            position: sticky;
+            top: 0;
+            z-index: 10; /* Ensures navbar stays on top */
         }
 
         .navbar a {
@@ -217,6 +202,11 @@
         .grid-item:hover {
             transform: scale(1.05);
         }
+
+        /* Ensuring content is not hidden behind navbar */
+        .main-content {
+            margin-top: 80px; /* Adjust according to the navbar height */
+        }
     </style>
 </head>
 <body>
@@ -231,13 +221,13 @@
         </div>
     </header>
 
-    <main class="container mx-auto p-4">
+    <main class="container mx-auto p-4 main-content">
         <!-- Frame Profile untuk Beranda -->
         <section id="beranda" class="mb-12">
             <div class="frame-profile text-center neumorphism">
                 <div class="photo transform3d-container">
                     <div class="transform3d-inner">
-                        <img src="https://via.placeholder.com/150" alt="Profile Picture"> <!-- Fixed URL -->
+                        <img src="https://i.ibb.co.com/RyrLTx6/20241122-022337.jpg" alt="20241122-022337" border="0">
                     </div>
                 </div>
                 <h3>Selamat Datang!</h3>
@@ -258,95 +248,34 @@
                         <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" alt="Instagram">
                     </a>
                     <a href="https://www.facebook.com/thiskey77?mibextid=JRoKGi">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/1/1b/Facebook_icon.svg" alt="Facebook">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/1/1b/Facebook_Logo_2023.png" alt="Facebook">
                     </a>
                 </div>
             </div>
         </section>
 
-        <!-- Section untuk Puisi -->
-        <section id="puisi-section" class="hidden mb-12">
-            <div id="puisi-detail" class="frame-puisi">
-                <h3 id="puisi-title"></h3>
-                <div id="puisi-content"></div>
-            </div>
+        <!-- Frame Puisi -->
+        <section class="frame-puisi neumorphism">
+            <h3>Puisi Ciptaan Saya</h3>
+            <p>
+                "Di bawah langit malam yang penuh bintang, aku menemukan kedamaian dalam sepi. 
+                Setiap helai angin membawa harapan baru, dan setiap malam adalah kesempatan untuk mulai lagi."
+            </p>
         </section>
+
     </main>
 
     <footer>
-        <p>© 2024 Key. Semua Hak Cipta Dilindungi</p>
+        <p>&copy; 2024 Key. All Rights Reserved.</p>
     </footer>
 
     <script>
-        // SweetAlert2 PIN Verification
-        Swal.fire({
-            title: 'Masukkan PIN',
-            input: 'password',
-            inputPlaceholder: 'Masukkan PIN Rahasia',
-            showCancelButton: false,
-            confirmButtonText: 'Akses',
-            inputValidator: (value) => {
-                if (value !== '0890') {
-                    return 'PIN salah! Akses ditolak.';
-                }
-            }
-        }).then((result) => {
-            if (result.isConfirmed) {
-                // If PIN is correct, load the website content
-                document.body.classList.remove('hidden');
-            } else {
-                document.body.innerHTML = 'Akses ditolak!';
-            }
-        });
-
         const menuToggle = document.getElementById('menu-toggle');
         const navbarLinks = document.getElementById('navbar-links');
 
-        menuToggle.addEventListener('click', function () {
+        menuToggle.addEventListener('click', () => {
             navbarLinks.classList.toggle('active');
-        });
-
-        async function loadFromGitHub() {
-            const url = `https://api.github.com/repos/kioshappyio/hidden-heart/contents/`;
-            const response = await fetch(url);
-            const data = await response.json();
-
-            data.forEach(file => {
-                if (file.name.endsWith('.md')) {
-                    const title = file.name.replace('.md', '').replace(/-/g, ' ');
-                    const link = document.createElement('a');
-                    link.href = "#";
-                    link.textContent = title;
-                    link.classList.add('nav-item');
-                    link.addEventListener('click', function () {
-                        loadPuisiDetail(file.name);
-                        navbarLinks.classList.remove('active');
-                        document.getElementById('beranda').classList.add('hidden'); // Hide the profile
-                        document.getElementById('puisi-section').classList.remove('hidden'); // Show the puisi section
-                    });
-                    navbarLinks.appendChild(link);
-                }
-            });
-        }
-
-        async function loadPuisiDetail(fileName) {
-            const url = `https://api.github.com/repos/kioshappyio/hidden-heart/contents/${fileName}`;
-            const response = await fetch(url);
-            const data = await response.json();
-            const content = atob(data.content);
-            const [title, ...body] = content.split('\n');
-
-            document.getElementById('puisi-title').textContent = title.replace('# ', '');
-            document.getElementById('puisi-content').innerHTML = body.join('<br>');
-        }
-
-        document.addEventListener('DOMContentLoaded', loadFromGitHub);
-
-        navbarLinks.addEventListener('click', function (e) {
-            if (e.target.classList.contains('nav-item')) {
-                navbarLinks.classList.remove('active');
-            }
         });
     </script>
 </body>
-    </html>
+                        </html>
