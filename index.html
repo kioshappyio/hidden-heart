@@ -6,78 +6,118 @@
     <title>My Private Puisi</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> <!-- SweetAlert2 Library -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
+        :root {
+            --primary-color: #1d4ed8;
+            --secondary-color: #87cefa;
+            --background-color: #f8f9fa;
+            --text-color: #333;
+            --border-radius: 12px;
+            --box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+        }
+
         body {
             font-family: 'Roboto', sans-serif;
-            background-color: #f8f9fa;
-            color: #333;
+            background-color: var(--background-color);
+            color: var(--text-color);
             display: flex;
             flex-direction: column;
             min-height: 100vh;
         }
+
         .header-logo {
             font-family: 'Courier New', Courier, monospace;
             font-weight: bold;
             font-size: 2rem;
-            color: #1d4ed8;
+            color: var(--primary-color);
         }
+
         .frame-puisi, .frame-profile {
-            border: 2px solid #1d4ed8;
-            border-radius: 12px;
+            border: 2px solid var(--primary-color);
+            border-radius: var(--border-radius);
             padding: 20px;
-            background-color: #fff;
+            background-color: rgba(255, 255, 255, 0.7); /* Glassmorphism */
+            backdrop-filter: blur(10px);
             margin-bottom: 20px;
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+            box-shadow: var(--box-shadow);
             transition: box-shadow 0.3s ease;
         }
+
         .frame-puisi:hover, .frame-profile:hover {
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
         }
+
         .frame-puisi h3 {
             font-size: 2rem;
             font-weight: bold;
-            color: #1d4ed8;
+            color: var(--primary-color);
             margin-bottom: 15px;
         }
+
         footer {
-            background-color: #1d4ed8;
+            background-color: var(--primary-color);
             text-align: center;
             padding: 20px;
             margin-top: auto;
+            color: #f0f0f0;
         }
+
         footer p {
             font-size: 0.875rem;
             font-weight: lighter;
             letter-spacing: 1px;
-            color: #f0f0f0;
         }
+
         .photo {
             width: 150px;
             height: 150px;
             margin: 0 auto 20px;
-            border: 5px solid #87cefa;
+            border: 5px solid var(--secondary-color);
             border-radius: 50%;
             overflow: hidden;
+            transition: transform 0.3s ease-in-out;
         }
+
         .photo img {
             width: 100%;
             height: 100%;
             object-fit: cover;
         }
+
         .social-icons {
             display: flex;
             justify-content: space-around;
             margin-top: 15px;
         }
+
         .social-icons img {
             width: 30px;
             height: 30px;
             cursor: pointer;
             transition: transform 0.2s ease-in-out;
         }
+
         .social-icons img:hover {
             transform: scale(1.2);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555;
         }
 
         /* Responsif untuk navbar dan menu hamburger */
@@ -85,42 +125,97 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background-color: #1d4ed8;
+            background-color: var(--primary-color);
             padding: 10px 20px;
+            position: relative;
         }
+
         .navbar a {
             color: white;
             text-decoration: none;
             margin: 0 15px;
             font-size: 1.2rem;
         }
+
         .menu-toggle {
             display: none;
             font-size: 2rem;
             color: white;
             cursor: pointer;
         }
+
         @media (max-width: 768px) {
             .navbar-links {
                 display: none;
                 width: 100%;
                 flex-direction: column;
-                background-color: #1d4ed8;
+                background-color: var(--primary-color);
                 position: absolute;
                 top: 60px;
                 left: 0;
                 padding: 20px;
                 gap: 10px;
             }
+
             .navbar-links.active {
                 display: flex;
             }
+
             .menu-toggle {
                 display: block;
             }
+
             .navbar a {
                 text-align: center;
             }
+        }
+
+        /* Neumorphism effect */
+        .neumorphism {
+            background: #e0e0e0;
+            border-radius: var(--border-radius);
+            box-shadow: 8px 8px 15px rgba(0, 0, 0, 0.2), -8px -8px 15px rgba(255, 255, 255, 0.7);
+            padding: 15px;
+            transition: box-shadow 0.3s ease-in-out;
+        }
+
+        .neumorphism:hover {
+            box-shadow: 8px 8px 15px rgba(0, 0, 0, 0.3), -8px -8px 15px rgba(255, 255, 255, 0.9);
+        }
+
+        /* 3D Transformations */
+        .transform3d-container {
+            perspective: 1000px;
+        }
+
+        .transform3d-inner {
+            transform-style: preserve-3d;
+            transition: transform 0.5s;
+        }
+
+        .transform3d-container:hover .transform3d-inner {
+            transform: rotateY(180deg);
+        }
+
+        /* CSS Grid + Flexbox */
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .grid-item {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: var(--secondary-color);
+            padding: 20px;
+            border-radius: 10px;
+            transition: transform 0.3s ease;
+        }
+
+        .grid-item:hover {
+            transform: scale(1.05);
         }
     </style>
 </head>
@@ -129,7 +224,7 @@
     <header>
         <div class="navbar">
             <h1 class="header-logo">Key</h1>
-            <div class="menu-toggle" id="menu-toggle">&#9776;</div> <!-- Hamburger Icon -->
+            <div class="menu-toggle" id="menu-toggle">&#9776;</div>
             <nav class="navbar-links" id="navbar-links">
                 <a href="#beranda" class="nav-item">Beranda</a>
             </nav>
@@ -139,23 +234,18 @@
     <main class="container mx-auto p-4">
         <!-- Frame Profile untuk Beranda -->
         <section id="beranda" class="mb-12">
-            <div class="frame-profile text-center">
-                <div class="photo">
-                    <img src="https://i.ibb.co.com/RyrLTx6/20241122-022337.jpg" alt="20241122-022337" border="0">
+            <div class="frame-profile text-center neumorphism">
+                <div class="photo transform3d-container">
+                    <div class="transform3d-inner">
+                        <img src="https://i.ibb.co.com/RyrLTx6/20241122-022337.jpg" alt="20241122-022337" border="0">
+                    </div>
                 </div>
                 <h3>Selamat Datang!</h3>
                 <p>
                     Saya adalah seorang <strong>pengusaha muda dan kreatif</strong> dengan visi untuk membawa perubahan di dunia digital melalui toko online saya, <strong>Kios Happy</strong>. 
-                    Sebagai penyedia layanan produk digital seperti pulsa, paket data, voucher, top-up e-wallet (DANA, OVO, GoPay), dan game, saya berkomitmen untuk menghadirkan pengalaman belanja yang mudah, cepat, dan terpercaya.
                 </p>
                 <p>
-                    Ketertarikan saya pada <strong>teknologi</strong> dan <strong>keamanan siber</strong> mendorong saya untuk terus mempelajari inovasi terbaru di bidang ini. Saya aktif mengikuti program-program <i>bug bounty</i> dan berbagai pelatihan untuk memperluas wawasan serta meningkatkan kemampuan secara profesional.
-                </p>
-                <p>
-                    Selain teknologi, saya juga seorang yang mencintai seni. Saya menulis <strong>puisi</strong> untuk mengekspresikan diri dan membagikan pandangan hidup saya. Saat ini, saya tengah mengembangkan sebuah platform digital untuk mendokumentasikan karya-karya sastra tersebut. Bagi saya, seni dan teknologi adalah perpaduan sempurna untuk menciptakan sesuatu yang berdampak.
-                </p>
-                <p>
-                    Dengan semangat untuk terus belajar dan berkontribusi, saya percaya bahwa setiap langkah kecil hari ini adalah pondasi bagi masa depan yang lebih baik.
+                    Ketertarikan saya pada <strong>teknologi</strong> dan <strong>keamanan siber</strong> mendorong saya untuk terus mempelajari inovasi terbaru di bidang ini.
                 </p>
                 <div class="social-icons">
                     <a href="https://wa.me/6283170121139">
@@ -186,78 +276,76 @@
     <footer>
         <p>© 2024 Key. Semua Hak Cipta Dilindungi</p>
     </footer>
-
-    <script>
-        // SweetAlert2 PIN Verification
-        Swal.fire({
-            title: 'Masukkan PIN',
-            input: 'password',
-            inputPlaceholder: 'Masukkan PIN Rahasia',
-            showCancelButton: false,
-            confirmButtonText: 'Akses',
-            inputValidator: (value) => {
-                if (value !== '0890') {
-                    return 'PIN salah! Akses ditolak.';
-                }
+<script>
+    // SweetAlert2 PIN Verification
+    Swal.fire({
+        title: 'Masukkan PIN',
+        input: 'password',
+        inputPlaceholder: 'Masukkan PIN Rahasia',
+        showCancelButton: false,
+        confirmButtonText: 'Akses',
+        inputValidator: (value) => {
+            if (value !== '0890') {
+                return 'PIN salah! Akses ditolak.';
             }
-        }).then((result) => {
-            if (result.isConfirmed) {
-                // If PIN is correct, load the website content
-                document.body.classList.remove('hidden');
-            } else {
-                document.body.innerHTML = 'Akses ditolak!';
-            }
-        });
-
-        const menuToggle = document.getElementById('menu-toggle');
-        const navbarLinks = document.getElementById('navbar-links');
-
-        menuToggle.addEventListener('click', function () {
-            navbarLinks.classList.toggle('active');
-        });
-
-        async function loadFromGitHub() {
-            const url = `https://api.github.com/repos/kioshappyio/hidden-heart/contents/`;
-            const response = await fetch(url);
-            const data = await response.json();
-
-            data.forEach(file => {
-                if (file.name.endsWith('.md')) {
-                    const title = file.name.replace('.md', '').replace(/-/g, ' ');
-                    const link = document.createElement('a');
-                    link.href = "#";
-                    link.textContent = title;
-                    link.classList.add('nav-item');
-                    link.addEventListener('click', function () {
-                        loadPuisiDetail(file.name);
-                        navbarLinks.classList.remove('active');
-                        document.getElementById('beranda').classList.add('hidden'); // Hide the profile
-                        document.getElementById('puisi-section').classList.remove('hidden'); // Show the puisi section
-                    });
-                    navbarLinks.appendChild(link);
-                }
-            });
         }
-
-        async function loadPuisiDetail(fileName) {
-            const url = `https://api.github.com/repos/kioshappyio/hidden-heart/contents/${fileName}`;
-            const response = await fetch(url);
-            const data = await response.json();
-            const content = atob(data.content);
-            const [title, ...body] = content.split('\n');
-
-            document.getElementById('puisi-title').textContent = title.replace('# ', '');
-            document.getElementById('puisi-content').innerHTML = body.join('<br>');
+    }).then((result) => {
+        if (result.isConfirmed) {
+            // If PIN is correct, load the website content
+            document.body.classList.remove('hidden');
+        } else {
+            document.body.innerHTML = 'Akses ditolak!';
         }
+    });
 
-        document.addEventListener('DOMContentLoaded', loadFromGitHub);
+    const menuToggle = document.getElementById('menu-toggle');
+    const navbarLinks = document.getElementById('navbar-links');
 
-        navbarLinks.addEventListener('click', function (e) {
-            if (e.target.classList.contains('nav-item')) {
-                navbarLinks.classList.remove('active');
+    menuToggle.addEventListener('click', function () {
+        navbarLinks.classList.toggle('active');
+    });
+
+    async function loadFromGitHub() {
+        const url = `https://api.github.com/repos/kioshappyio/hidden-heart/contents/`;
+        const response = await fetch(url);
+        const data = await response.json();
+
+        data.forEach(file => {
+            if (file.name.endsWith('.md')) {
+                const title = file.name.replace('.md', '').replace(/-/g, ' ');
+                const link = document.createElement('a');
+                link.href = "#";
+                link.textContent = title;
+                link.classList.add('nav-item');
+                link.addEventListener('click', function () {
+                    loadPuisiDetail(file.name);
+                    navbarLinks.classList.remove('active');
+                    document.getElementById('beranda').classList.add('hidden'); // Hide the profile
+                    document.getElementById('puisi-section').classList.remove('hidden'); // Show the puisi section
+                });
+                navbarLinks.appendChild(link);
             }
         });
-    </script>
+    }
 
+    async function loadPuisiDetail(fileName) {
+        const url = `https://api.github.com/repos/kioshappyio/hidden-heart/contents/${fileName}`;
+        const response = await fetch(url);
+        const data = await response.json();
+        const content = atob(data.content);
+        const [title, ...body] = content.split('\n');
+
+        document.getElementById('puisi-title').textContent = title.replace('# ', '');
+        document.getElementById('puisi-content').innerHTML = body.join('<br>');
+    }
+
+    document.addEventListener('DOMContentLoaded', loadFromGitHub);
+
+    navbarLinks.addEventListener('click', function (e) {
+        if (e.target.classList.contains('nav-item')) {
+            navbarLinks.classList.remove('active');
+        }
+    });
+</script>
 </body>
-</html>
+                            </html>
