@@ -14,7 +14,7 @@ Berhenti dengan sempurna, menyatu di akhir,
 Tapi ternyata, kita hanyalah waqaf murakhkhas,
 Berhenti sejenak, lalu berlalu tanpa kembali.
 
-Dan kini aku sadar…
+Dan kini aku sadar.....
 Kita adalah hamzah washal,
 Yang hanya dibaca saat perlu,
 Dan diabaikan saat tak lagi dibutuhkan.
